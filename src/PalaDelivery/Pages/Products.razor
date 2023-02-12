@@ -1,0 +1,39 @@
+﻿@page "/products"
+@using PalaDelivery.Data
+@inject ProductsService ProductsService
+
+<PageTitle>Products</PageTitle>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+}
+
+@code {
+    private List<Product>? products = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductsService.GetRandomProducts();
+    }
+}
